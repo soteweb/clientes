@@ -30,4 +30,23 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    /**
+     * Override remember token methods as 'usuarios' table doesn't have it.
+     */
+    public function getRememberToken(): ?string
+    {
+        return null;
+    }
+
+    public function setRememberToken($value): void
+    {
+        // No-op
+    }
+
+    public function getRememberTokenName(): string
+    {
+        return '';
+    }
 }
+

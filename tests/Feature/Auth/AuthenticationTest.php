@@ -17,39 +17,36 @@ class AuthenticationTest extends TestCase
 
         $response
             ->assertOk()
-            ->assertSeeVolt('pages.auth.login');
+            ->assertSee('Usuario')
+            ->assertSee('Contraseña');
     }
 
     public function test_users_can_authenticate_using_the_login_screen(): void
     {
-        $user = User::factory()->create();
+        $user = User::factory()->create([
+            'password' => bcrypt($password = 'password'),
+        ]);
 
-        $component = Volt::test('pages.auth.login')
-            ->set('form.email', $user->email)
-            ->set('form.password', 'password');
+        $response = $this->post('/login', [
+            'username' => $user->username,
+            'password' => $password,
+        ]);
 
-        $component->call('login');
+        $response->assertRedirect(route('dashboard', absolute: false));
 
-        $component
-            ->assertHasNoErrors()
-            ->assertRedirect(route('dashboard', absolute: false));
-
-        $this->assertAuthenticated();
+        $this->assertAuthenticatedAs($user);
     }
 
     public function test_users_can_not_authenticate_with_invalid_password(): void
     {
         $user = User::factory()->create();
 
-        $component = Volt::test('pages.auth.login')
-            ->set('form.email', $user->email)
-            ->set('form.password', 'wrong-password');
+        $response = $this->post('/login', [
+            'username' => $user->username,
+            'password' => 'wrong-password',
+        ]);
 
-        $component->call('login');
-
-        $component
-            ->assertHasErrors()
-            ->assertNoRedirect();
+        $response->assertSessionHasErrors('username');
 
         $this->assertGuest();
     }
