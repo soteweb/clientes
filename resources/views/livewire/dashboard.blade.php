@@ -1,3 +1,5 @@
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 <div class="py-6 max-w-7xl mx-auto space-y-6">
     <!-- Header Subtitle -->
     <div class="mb-2">
@@ -37,7 +39,10 @@
             </div>
         </div>
 
-        <div class="flex items-center gap-3 w-full lg:w-auto justify-end border-t lg:border-t-0 pt-4 lg:pt-0 border-slate-100">
+        <div class="flex flex-wrap items-center gap-3 w-full lg:w-auto justify-end border-t lg:border-t-0 pt-4 lg:pt-0 border-slate-100">
+            <button wire:click="exportCSV" class="inline-flex items-center gap-2 px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold text-sm rounded-lg shadow-sm transition-colors">
+                <x-heroicon-o-arrow-down-tray class="w-4 h-4"/> Exportar CSV
+            </button>
             <a href="{{ route('payments.index') }}" class="inline-flex items-center gap-2 px-4 py-2 border border-slate-200 hover:bg-slate-50 text-slate-700 font-semibold text-sm rounded-lg bg-white shadow-sm transition-colors">
                 <x-heroicon-o-credit-card class="w-4 h-4 text-blue-600"/> Pagos
             </a>
@@ -48,49 +53,256 @@
     </div>
 
     <!-- Stat Cards Grid -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-        <!-- Card 1 -->
-        <div class="bg-white rounded-xl shadow-sm border border-slate-100 p-6 flex flex-col justify-between hover:shadow-md transition-shadow">
-            <div>
-                <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Ingresos totales</p>
-                <h3 class="text-3xl font-extrabold text-slate-900 mt-2">
-                    {{ number_format($ingresosTotales, 0, ',', '.') }}
-                </h3>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-6">
+        <!-- Card 1: Ingresos Totales -->
+        <div class="bg-white rounded-xl shadow-sm border border-slate-100 p-5 flex flex-col justify-between hover:shadow-md transition-shadow relative overflow-hidden">
+            <div class="flex items-start justify-between">
+                <div>
+                    <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Ingresos totales</p>
+                    <h3 class="text-lg md:text-xl font-extrabold text-slate-900 mt-2">
+                        Gs. {{ number_format($ingresosTotales, 0, ',', '.') }}
+                    </h3>
+                </div>
+                <div class="p-2 bg-blue-50 rounded-lg text-blue-600">
+                    <x-heroicon-o-banknotes class="w-5 h-5"/>
+                </div>
             </div>
-            <p class="text-xs text-slate-500 mt-4 font-medium">Acumulado {{ \Carbon\Carbon::parse($desde)->format('Y') }}</p>
+            <p class="text-[10px] text-slate-500 mt-4 font-medium">Acumulado en el período</p>
         </div>
 
-        <!-- Card 2 -->
-        <div class="bg-white rounded-xl shadow-sm border border-slate-100 p-6 flex flex-col justify-between hover:shadow-md transition-shadow">
-            <div>
-                <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Ingreso del Mes</p>
-                <h3 class="text-3xl font-extrabold text-slate-900 mt-2">
-                    {{ number_format($ingresoMes, 0, ',', '.') }}
-                </h3>
+        <!-- Card 2: Ingreso del Mes -->
+        <div class="bg-white rounded-xl shadow-sm border border-slate-100 p-5 flex flex-col justify-between hover:shadow-md transition-shadow relative overflow-hidden">
+            <div class="flex items-start justify-between">
+                <div>
+                    <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Ingreso del Mes</p>
+                    <h3 class="text-lg md:text-xl font-extrabold text-slate-900 mt-2">
+                        Gs. {{ number_format($ingresoMes, 0, ',', '.') }}
+                    </h3>
+                </div>
+                <div class="p-2 bg-emerald-50 rounded-lg text-emerald-600">
+                    <x-heroicon-o-calendar-days class="w-5 h-5"/>
+                </div>
             </div>
-            <p class="text-xs text-slate-500 mt-4 font-medium capitalize">{{ \Carbon\Carbon::now()->translatedFormat('F Y') }}</p>
+            <p class="text-[10px] text-slate-500 mt-4 font-medium capitalize">{{ \Carbon\Carbon::now()->translatedFormat('F Y') }}</p>
         </div>
 
-        <!-- Card 3 -->
-        <div class="bg-white rounded-xl shadow-sm border border-slate-100 p-6 flex flex-col justify-between hover:shadow-md transition-shadow">
-            <div>
-                <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Ingreso de Hoy</p>
-                <h3 class="text-3xl font-extrabold text-slate-900 mt-2">
-                    {{ number_format($ingresoHoy, 0, ',', '.') }}
-                </h3>
+        <!-- Card 3: Ingreso de Hoy -->
+        <div class="bg-white rounded-xl shadow-sm border border-slate-100 p-5 flex flex-col justify-between hover:shadow-md transition-shadow relative overflow-hidden">
+            <div class="flex items-start justify-between">
+                <div>
+                    <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Ingreso de Hoy</p>
+                    <h3 class="text-lg md:text-xl font-extrabold text-slate-900 mt-2">
+                        Gs. {{ number_format($ingresoHoy, 0, ',', '.') }}
+                    </h3>
+                </div>
+                <div class="p-2 bg-amber-50 rounded-lg text-amber-600">
+                    <x-heroicon-o-bolt class="w-5 h-5"/>
+                </div>
             </div>
-            <p class="text-xs text-slate-500 mt-4 font-medium">{{ \Carbon\Carbon::now()->format('d/m/Y') }}</p>
+            <p class="text-[10px] text-slate-500 mt-4 font-medium">{{ \Carbon\Carbon::now()->format('d/m/Y') }}</p>
         </div>
 
-        <!-- Card 4 -->
-        <div class="bg-white rounded-xl shadow-sm border border-slate-100 p-6 flex flex-col justify-between hover:shadow-md transition-shadow">
-            <div>
-                <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Clientes Activos</p>
-                <h3 class="text-3xl font-extrabold text-slate-900 mt-2">
-                    {{ $clientesActivos }}
-                </h3>
+        <!-- Card 4: Ticket Promedio -->
+        <div class="bg-white rounded-xl shadow-sm border border-slate-100 p-5 flex flex-col justify-between hover:shadow-md transition-shadow relative overflow-hidden">
+            <div class="flex items-start justify-between">
+                <div>
+                    <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Ticket Promedio</p>
+                    <h3 class="text-lg md:text-xl font-extrabold text-slate-900 mt-2">
+                        Gs. {{ number_format($ticketPromedio, 0, ',', '.') }}
+                    </h3>
+                </div>
+                <div class="p-2 bg-purple-50 rounded-lg text-purple-600">
+                    <x-heroicon-o-tag class="w-5 h-5"/>
+                </div>
             </div>
-            <p class="text-xs text-slate-500 mt-4 font-medium">Total en cartera</p>
+            <p class="text-[10px] text-slate-500 mt-4 font-medium">Monto promedio por cobro</p>
+        </div>
+
+        <!-- Card 5: Proyección Renovaciones -->
+        <div class="bg-white rounded-xl shadow-sm border border-slate-100 p-5 flex flex-col justify-between hover:shadow-md transition-shadow relative overflow-hidden">
+            <div class="flex items-start justify-between">
+                <div>
+                    <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Proyección (30d)</p>
+                    <h3 class="text-lg md:text-xl font-extrabold text-slate-900 mt-2">
+                        Gs. {{ number_format($proyeccionRenovaciones, 0, ',', '.') }}
+                    </h3>
+                </div>
+                <div class="p-2 bg-indigo-50 rounded-lg text-indigo-600">
+                    <x-heroicon-o-arrow-trending-up class="w-5 h-5"/>
+                </div>
+            </div>
+            <p class="text-[10px] text-slate-500 mt-4 font-medium">Próximos 30 días</p>
+        </div>
+
+        <!-- Card 6: Clientes Activos -->
+        <div class="bg-white rounded-xl shadow-sm border border-slate-100 p-5 flex flex-col justify-between hover:shadow-md transition-shadow relative overflow-hidden">
+            <div class="flex items-start justify-between">
+                <div>
+                    <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Clientes Activos</p>
+                    <h3 class="text-lg md:text-xl font-extrabold text-slate-950 mt-2">
+                        {{ $clientesActivos }}
+                    </h3>
+                </div>
+                <div class="p-2 bg-teal-50 rounded-lg text-teal-600">
+                    <x-heroicon-o-users class="w-5 h-5"/>
+                </div>
+            </div>
+            <p class="text-[10px] text-slate-500 mt-4 font-medium">Total en cartera</p>
+        </div>
+    </div>
+
+    <!-- Charts Grid -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <!-- Chart 1: Trend (Bar Chart) - takes 2 columns on desktop -->
+        <div class="bg-white rounded-xl shadow-sm border border-slate-100 p-6 lg:col-span-2 flex flex-col justify-between hover:shadow-md transition-shadow">
+            <div class="flex items-center justify-between mb-4">
+                <div>
+                    <h3 class="text-base font-bold text-slate-800">Tendencia de Ingresos Mensuales</h3>
+                    <p class="text-xs text-slate-500">Monto total cobrado por mes en el año en curso</p>
+                </div>
+                <div class="text-xs font-semibold text-slate-400 bg-slate-50 px-2.5 py-1 rounded-md">
+                    Año {{ \Carbon\Carbon::now()->format('Y') }}
+                </div>
+            </div>
+            <!-- Canvas container with wire:ignore and Alpine.js -->
+            <div wire:ignore class="h-80 relative w-full" 
+                 x-data="{
+                    monthlyData: @entangle('monthlyData'),
+                    init() {
+                        const ctx = this.$refs.canvas.getContext('2d');
+                        const chart = new Chart(ctx, {
+                            type: 'bar',
+                            data: {
+                                labels: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+                                datasets: [{
+                                    label: 'Ingresos (Gs.)',
+                                    data: this.monthlyData,
+                                    backgroundColor: 'rgba(59, 130, 246, 0.85)',
+                                    hoverBackgroundColor: 'rgba(59, 130, 246, 1)',
+                                    borderColor: 'rgb(59, 130, 246)',
+                                    borderWidth: 1,
+                                    borderRadius: 6,
+                                    borderSkipped: false
+                                }]
+                            },
+                            options: {
+                                responsive: true,
+                                maintainAspectRatio: false,
+                                plugins: {
+                                    legend: { display: false },
+                                    tooltip: {
+                                        callbacks: {
+                                            label: function(context) {
+                                                let label = context.dataset.label || '';
+                                                if (label) {
+                                                    label += ': ';
+                                                }
+                                                if (context.parsed.y !== null) {
+                                                    label += new Intl.NumberFormat('es-PY', { style: 'currency', currency: 'PYG', minimumFractionDigits: 0 }).format(context.parsed.y).replace('PYG', 'Gs.');
+                                                }
+                                                return label;
+                                            }
+                                        }
+                                    }
+                                },
+                                scales: {
+                                    x: {
+                                        grid: { display: false }
+                                    },
+                                    y: {
+                                        beginAtZero: true,
+                                        ticks: {
+                                            callback: function(value) {
+                                                if (value >= 1000000) {
+                                                    return (value / 1000000) + 'M Gs.';
+                                                }
+                                                return value.toLocaleString('es-PY') + ' Gs.';
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        });
+                        this.$watch('monthlyData', value => {
+                            chart.data.datasets[0].data = value;
+                            chart.update();
+                        });
+                    }
+                 }">
+                <canvas x-ref="canvas"></canvas>
+            </div>
+        </div>
+
+        <!-- Chart 2: Periodicity Distribution (Doughnut Chart) - takes 1 column on desktop -->
+        <div class="bg-white rounded-xl shadow-sm border border-slate-100 p-6 flex flex-col justify-between hover:shadow-md transition-shadow">
+            <div class="flex items-center justify-between mb-4">
+                <div>
+                    <h3 class="text-base font-bold text-slate-800">Distribución por Periodicidad</h3>
+                    <p class="text-xs text-slate-500">Porcentaje de ingresos según recurrencia</p>
+                </div>
+            </div>
+            <!-- Canvas container with wire:ignore and Alpine.js -->
+            <div wire:ignore class="h-80 relative w-full flex items-center justify-center" 
+                 x-data="{
+                    periodicitySums: @entangle('periodicitySums'),
+                    init() {
+                        const ctx = this.$refs.canvas.getContext('2d');
+                        const chart = new Chart(ctx, {
+                            type: 'doughnut',
+                            data: {
+                                labels: ['Mensual', 'Anual', 'Único'],
+                                datasets: [{
+                                    data: [this.periodicitySums.Mensual, this.periodicitySums.Anual, this.periodicitySums.Único],
+                                    backgroundColor: [
+                                        'rgba(59, 130, 246, 0.85)',
+                                        'rgba(16, 185, 129, 0.85)',
+                                        'rgba(245, 158, 11, 0.85)'
+                                    ],
+                                    borderColor: [
+                                        'rgb(59, 130, 246)',
+                                        'rgb(16, 185, 129)',
+                                        'rgb(245, 158, 11)'
+                                    ],
+                                    borderWidth: 1,
+                                    hoverOffset: 4
+                                }]
+                            },
+                            options: {
+                                responsive: true,
+                                maintainAspectRatio: false,
+                                plugins: {
+                                    legend: { 
+                                        position: 'bottom',
+                                        labels: {
+                                            boxWidth: 12,
+                                            padding: 15
+                                        }
+                                    },
+                                    tooltip: {
+                                        callbacks: {
+                                            label: function(context) {
+                                                let label = context.label || '';
+                                                if (label) {
+                                                    label += ': ';
+                                                }
+                                                if (context.parsed !== null) {
+                                                    label += new Intl.NumberFormat('es-PY', { style: 'currency', currency: 'PYG', minimumFractionDigits: 0 }).format(context.parsed).replace('PYG', 'Gs.');
+                                                }
+                                                return label;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        });
+                        this.$watch('periodicitySums', value => {
+                            chart.data.datasets[0].data = [value.Mensual, value.Anual, value.Único];
+                            chart.update();
+                        });
+                    }
+                 }">
+                <canvas x-ref="canvas"></canvas>
+            </div>
         </div>
     </div>
 
