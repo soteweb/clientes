@@ -494,7 +494,7 @@
                                                 {{ number_format($subPay->porcion_recurso, 1, ',', '.') }}
                                             </td>
                                             <td class="py-3 px-4 text-right font-extrabold text-slate-900">
-                                                ${{ is_numeric($subPay->monto) ? number_format((float)$subPay->monto, 0, ',', '.') : $subPay->monto }}
+                                                ${{ \App\Models\Payment::formatMonto($subPay->monto) }}
                                             </td>
                                             <td class="py-3 px-4 text-center">
                                                 @if(($subPay->estado ?? 'Pagado') == 'Pagado')

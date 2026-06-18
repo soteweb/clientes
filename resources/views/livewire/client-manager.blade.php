@@ -328,7 +328,7 @@
                                     @endif
                                 </div>
                                 <div class="text-right sm:self-center">
-                                    <span class="font-extrabold text-base text-emerald-600">${{ is_numeric($pm->monto) ? number_format((float)$pm->monto, 0, ',', '.') : $pm->monto }}</span>
+                                    <span class="font-extrabold text-base text-emerald-600">${{ \App\Models\Payment::formatMonto($pm->monto) }}</span>
                                 </div>
                             </div>
                         @empty

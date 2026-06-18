@@ -92,4 +92,16 @@ class DashboardTest extends TestCase
 
         $response->assertFileDownloaded();
     }
+
+    public function test_payment_amount_formatting(): void
+    {
+        $this->assertEquals('858.000', Payment::formatMonto('858.000'));
+        $this->assertEquals('583.200', Payment::formatMonto('583.200'));
+        $this->assertEquals('629.980', Payment::formatMonto('629.980'));
+        $this->assertEquals('1.096.200', Payment::formatMonto('1096200'));
+        $this->assertEquals('1.118.000', Payment::formatMonto('1.118.000'));
+        $this->assertEquals('1.280.000 Gs', Payment::formatMonto('1.280.000 Gs'));
+        $this->assertEquals('30 u$', Payment::formatMonto('30 u$'));
+        $this->assertEquals('0', Payment::formatMonto(''));
+    }
 }

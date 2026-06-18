@@ -368,7 +368,7 @@
                                 @endif
                             </td>
                             <td class="py-4 px-6 font-bold text-slate-900 text-right">
-                                {{ is_numeric($item->monto) ? number_format((float)$item->monto, 0, ',', '.') : $item->monto }}
+                                {{ \App\Models\Payment::formatMonto($item->monto) }}
                             </td>
                         </tr>
                     @empty

@@ -57,7 +57,7 @@
                                 {{ $payment->servicio }}
                             </td>
                             <td class="py-4 px-6 font-extrabold text-slate-900 text-right whitespace-nowrap">
-                                {{ is_numeric($payment->monto) ? number_format((float)$payment->monto, 0, ',', '.') : $payment->monto }}
+                                {{ \App\Models\Payment::formatMonto($payment->monto) }}
                             </td>
                             <td class="py-4 px-6 text-center whitespace-nowrap">
                                 @if($payment->periodicidad)
@@ -272,7 +272,7 @@
                         </div>
                         <div>
                             <span class="text-xs text-slate-400 font-semibold uppercase block">Monto Cobrado</span>
-                            <span class="font-extrabold text-emerald-600 text-xl">${{ is_numeric($activePayment->monto) ? number_format((float)$activePayment->monto, 0, ',', '.') : $activePayment->monto }}</span>
+                            <span class="font-extrabold text-emerald-600 text-xl">${{ \App\Models\Payment::formatMonto($activePayment->monto) }}</span>
                         </div>
                         <div>
                             <span class="text-xs text-slate-400 font-semibold uppercase block">Fecha de Pago</span>

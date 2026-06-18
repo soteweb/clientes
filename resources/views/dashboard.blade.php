@@ -99,7 +99,7 @@
                                     </div>
                                 </div>
                                 <div class="text-right">
-                                    <p class="font-bold text-sm text-slate-900">${{ is_numeric($payment->monto) ? number_format((float)$payment->monto, 2) : $payment->monto }}</p>
+                                    <p class="font-bold text-sm text-slate-900">${{ \App\Models\Payment::formatMonto($payment->monto) }}</p>
                                     @if($payment->periodicidad)
                                         <span class="text-[10px] font-semibold bg-blue-50 text-blue-700 px-1.5 py-0.5 rounded">{{ $payment->periodicidad }}</span>
                                     @endif
@@ -150,7 +150,7 @@
                                         @else
                                             <span class="text-xs text-slate-600 block mb-0.5 font-medium">Faltan {{ (int)$diffDays }} días</span>
                                         @endif
-                                        <span class="text-xs font-bold text-slate-900">${{ is_numeric($item->monto) ? number_format((float)$item->monto, 2) : $item->monto }}</span>
+                                        <span class="text-xs font-bold text-slate-900">${{ \App\Models\Payment::formatMonto($item->monto) }}</span>
                                     </div>
                                 </div>
                             @empty
