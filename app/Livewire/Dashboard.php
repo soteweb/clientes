@@ -156,7 +156,11 @@ class Dashboard extends Component
         // Proyecciones de cobranzas para los próximos 30 días
         $todayStr = Carbon::now()->format('Y-m-d');
         $in30DaysStr = Carbon::now()->addDays(30)->format('Y-m-d');
-        $upcomingPayments = Payment::whereBetween('fecha_proximo_pago', [$todayStr, $in30DaysStr])->get();
+        $upcomingQuery = Payment::whereBetween('fecha_proximo_pago', [$todayStr, $in30DaysStr]);
+        if ($this->selected_client) {
+            $upcomingQuery->where('cliente_id', $this->selected_client);
+        }
+        $upcomingPayments = $upcomingQuery->get();
         $proyeccionRenovaciones = 0;
         foreach ($upcomingPayments as $p) {
             $proyeccionRenovaciones += $this->parseAmount($p->monto);

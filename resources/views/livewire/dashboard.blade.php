@@ -11,17 +11,17 @@
         <div class="flex flex-wrap items-end gap-4 w-full lg:w-auto">
             <div>
                 <label class="block text-xs font-semibold text-slate-500 mb-1">Desde</label>
-                <input wire:model="desde" type="date" class="px-3 py-2 text-sm border border-slate-200 rounded-lg bg-slate-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white text-slate-700 font-medium">
+                <input wire:model.live="desde" type="date" class="px-3 py-2 text-sm border border-slate-200 rounded-lg bg-slate-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white text-slate-700 font-medium">
             </div>
 
             <div>
                 <label class="block text-xs font-semibold text-slate-500 mb-1">Hasta</label>
-                <input wire:model="hasta" type="date" class="px-3 py-2 text-sm border border-slate-200 rounded-lg bg-slate-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white text-slate-700 font-medium">
+                <input wire:model.live="hasta" type="date" class="px-3 py-2 text-sm border border-slate-200 rounded-lg bg-slate-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white text-slate-700 font-medium">
             </div>
 
             <div class="w-full sm:w-64">
                 <label class="block text-xs font-semibold text-slate-500 mb-1">Cliente</label>
-                <select wire:model="selected_client" class="w-full px-3 py-2 text-sm border border-slate-200 rounded-lg bg-slate-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white text-slate-700 font-medium">
+                <select wire:model.live="selected_client" class="w-full px-3 py-2 text-sm border border-slate-200 rounded-lg bg-slate-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white text-slate-700 font-medium">
                     <option value="">Seleccionar...</option>
                     @foreach($clientes as $cli)
                         <option value="{{ $cli->cliente_id }}">{{ $cli->empresa ?: $cli->titular ?: 'Sin nombre' }}</option>
