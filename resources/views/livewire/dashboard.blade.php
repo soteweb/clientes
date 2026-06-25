@@ -1,6 +1,5 @@
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
 <div class="py-6 max-w-7xl mx-auto space-y-6">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <!-- Header Subtitle -->
     <div class="mb-2">
         <p class="text-sm text-slate-500 font-medium">Resumen financiero y actividad reciente</p>

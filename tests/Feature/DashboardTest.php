@@ -104,4 +104,31 @@ class DashboardTest extends TestCase
         $this->assertEquals('30 u$', Payment::formatMonto('30 u$'));
         $this->assertEquals('0', Payment::formatMonto(''));
     }
+
+    public function test_changing_client_updates_metrics(): void
+    {
+        $user = User::factory()->create();
+        $client1 = Client::create(['titular' => 'Client One', 'estado' => 'Activo']);
+        $client2 = Client::create(['titular' => 'Client Two', 'estado' => 'Activo']);
+
+        Payment::create([
+            'cliente_id' => $client1->cliente_id,
+            'fecha' => '2026-06-01',
+            'monto' => '500000',
+            'servicio' => 'Hosting',
+        ]);
+
+        Payment::create([
+            'cliente_id' => $client2->cliente_id,
+            'fecha' => '2026-06-01',
+            'monto' => '300000',
+            'servicio' => 'Hosting',
+        ]);
+
+        $component = Livewire::actingAs($user)
+            ->test(\App\Livewire\Dashboard::class)
+            ->set('selected_client', $client1->cliente_id);
+
+        $this->assertEquals(500000, $component->viewData('ingresosTotales'));
+    }
 }
