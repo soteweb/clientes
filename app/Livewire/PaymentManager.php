@@ -134,6 +134,11 @@ class PaymentManager extends Component
 
     public function delete($id)
     {
+        if (auth()->user()->rol !== 'administrador') {
+            session()->flash('error', 'No tienes autorización para eliminar cobros.');
+            return;
+        }
+
         Payment::find($id)->delete();
         session()->flash('message', 'Pago eliminado exitosamente.');
     }

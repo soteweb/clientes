@@ -14,6 +14,13 @@ class UserManager extends Component
     public $isOpen = false;
     public $search = '';
 
+    public function mount()
+    {
+        if (auth()->user()->rol !== 'administrador') {
+            abort(403, 'No tienes autorización para acceder a esta sección.');
+        }
+    }
+
     public function render()
     {
         $this->users = User::where('nombre', 'like', '%'.$this->search.'%')

@@ -47,10 +47,12 @@
                         <x-heroicon-o-document-text class="w-5 h-5 shrink-0"/>
                         <span x-show="sidebarOpen" x-transition>Presupuestos</span>
                     </a>
+                    @if(auth()->user()->rol === 'administrador')
                     <a href="{{ route('users.index') }}" title="Usuarios" class="flex items-center gap-3.5 px-3.5 py-2.5 rounded-xl font-bold text-sm transition-all {{ request()->routeIs('users.*') ? 'bg-blue-600 text-white shadow-sm shadow-blue-500/30' : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900' }}">
                         <x-heroicon-o-user-group class="w-5 h-5 shrink-0"/>
                         <span x-show="sidebarOpen" x-transition>Usuarios</span>
                     </a>
+                    @endif
                     <a href="{{ route('tickets.index') }}" title="Tickets de Soporte" class="flex items-center gap-3.5 px-3.5 py-2.5 rounded-xl font-bold text-sm transition-all {{ request()->routeIs('tickets.*') ? 'bg-blue-600 text-white shadow-sm shadow-blue-500/30' : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900' }}">
                         <x-heroicon-o-lifebuoy class="w-5 h-5 shrink-0"/>
                         <span x-show="sidebarOpen" x-transition>Soporte / Tickets</span>

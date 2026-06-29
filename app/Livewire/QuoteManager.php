@@ -215,6 +215,11 @@ class QuoteManager extends Component
 
     public function delete($id)
     {
+        if (auth()->user()->rol !== 'administrador') {
+            session()->flash('error', 'No tienes autorización para eliminar presupuestos.');
+            return;
+        }
+
         DB::beginTransaction();
         try {
             QuoteItem::where('presupuesto_id', $id)->delete();

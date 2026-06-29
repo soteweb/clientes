@@ -138,9 +138,11 @@
                             <button wire:click="editPool({{ $pool->pool_id }})" title="Editar" class="p-1 text-blue-600 hover:text-blue-900 hover:bg-blue-50 rounded transition-colors font-bold">
                                 <x-heroicon-o-pencil-square class="w-4 h-4"/>
                             </button>
+                            @if(auth()->user()->rol === 'administrador')
                             <button wire:click="deletePool({{ $pool->pool_id }})" wire:confirm="¿Estás seguro de eliminar este pool de recursos? Esto desvinculará todos los pagos asociados." title="Eliminar" class="p-1 text-red-600 hover:text-red-900 hover:bg-red-50 rounded transition-colors font-bold">
                                 <x-heroicon-o-trash class="w-4 h-4"/>
                             </button>
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -195,9 +197,11 @@
                                         <button wire:click="editSupplier({{ $supplier->proveedor_id }})" title="Editar Proveedor" class="p-1.5 text-blue-600 hover:text-blue-900 hover:bg-blue-50 rounded-lg transition-colors font-bold">
                                             <x-heroicon-o-pencil-square class="w-5 h-5"/>
                                         </button>
+                                        @if(auth()->user()->rol === 'administrador')
                                         <button wire:click="deleteSupplier({{ $supplier->proveedor_id }})" wire:confirm="¿Estás seguro de eliminar este proveedor? Se eliminarán también todos sus pools de recursos." title="Eliminar" class="p-1.5 text-red-600 hover:text-red-900 hover:bg-red-50 rounded-lg transition-colors font-bold">
                                             <x-heroicon-o-trash class="w-5 h-5"/>
                                         </button>
+                                        @endif
                                     </div>
                                 </td>
                             </tr>

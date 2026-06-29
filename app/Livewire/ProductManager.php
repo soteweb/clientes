@@ -95,6 +95,11 @@ class ProductManager extends Component
 
     public function delete($id)
     {
+        if (auth()->user()->rol !== 'administrador') {
+            session()->flash('error', 'No tienes autorización para eliminar productos.');
+            return;
+        }
+
         Product::find($id)->delete();
         session()->flash('message', 'Producto eliminado exitosamente.');
     }

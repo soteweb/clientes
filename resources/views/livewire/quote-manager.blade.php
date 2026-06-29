@@ -90,9 +90,11 @@
                                 <button wire:click="edit({{ $quote->id }})" class="text-blue-600 hover:text-blue-900 bg-blue-50 p-2 rounded-lg transition-colors mr-2" title="Editar">
                                     <x-heroicon-o-pencil-square class="w-5 h-5"/>
                                 </button>
+                                @if(auth()->user()->rol === 'administrador')
                                 <button wire:click="delete({{ $quote->id }})" wire:confirm="¿Estás seguro de que deseas eliminar este presupuesto?" class="text-red-600 hover:text-red-900 bg-red-50 p-2 rounded-lg transition-colors" title="Eliminar">
                                     <x-heroicon-o-trash class="w-5 h-5"/>
                                 </button>
+                                @endif
                             </td>
                         </tr>
                         @empty

@@ -94,9 +94,11 @@
                                     <button wire:click="edit({{ $payment->pago_id }})" title="Editar Pago" class="p-1.5 text-blue-600 hover:text-blue-900 hover:bg-blue-50 rounded-lg transition-colors font-bold">
                                         <x-heroicon-o-pencil-square class="w-5 h-5"/>
                                     </button>
+                                    @if(auth()->user()->rol === 'administrador')
                                     <button wire:click="delete({{ $payment->pago_id }})" wire:confirm="¿Estás seguro de eliminar este registro?" title="Eliminar" class="p-1.5 text-red-600 hover:text-red-900 hover:bg-red-50 rounded-lg transition-colors font-bold">
                                         <x-heroicon-o-trash class="w-5 h-5"/>
                                     </button>
+                                    @endif
                                 </div>
                             </td>
                         </tr>

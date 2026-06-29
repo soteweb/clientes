@@ -91,9 +91,11 @@
                                     <button wire:click="edit({{ $client->cliente_id }})" title="Editar Cliente" class="p-1.5 text-blue-600 hover:text-blue-900 hover:bg-blue-50 rounded-lg transition-colors">
                                         <x-heroicon-o-pencil-square class="w-5 h-5"/>
                                     </button>
+                                    @if(auth()->user()->rol === 'administrador')
                                     <button wire:click="delete({{ $client->cliente_id }})" wire:confirm="¿Estás seguro de eliminar este cliente?" title="Eliminar" class="p-1.5 text-red-600 hover:text-red-900 hover:bg-red-50 rounded-lg transition-colors">
                                         <x-heroicon-o-trash class="w-5 h-5"/>
                                     </button>
+                                    @endif
                                 </div>
                             </td>
                         </tr>

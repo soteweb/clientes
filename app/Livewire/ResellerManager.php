@@ -134,6 +134,11 @@ class ResellerManager extends Component
 
     public function deleteSupplier($id)
     {
+        if (auth()->user()->rol !== 'administrador') {
+            session()->flash('error', 'No tienes autorización para eliminar proveedores.');
+            return;
+        }
+
         Supplier::find($id)->delete();
         session()->flash('message', 'Proveedor eliminado con éxito.');
     }
@@ -224,6 +229,11 @@ class ResellerManager extends Component
 
     public function deletePool($id)
     {
+        if (auth()->user()->rol !== 'administrador') {
+            session()->flash('error', 'No tienes autorización para eliminar pools de recursos.');
+            return;
+        }
+
         Pool::find($id)->delete();
         session()->flash('message', 'Pool de recursos eliminado con éxito.');
     }

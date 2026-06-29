@@ -104,6 +104,11 @@ class ClientManager extends Component
 
     public function delete($id)
     {
+        if (auth()->user()->rol !== 'administrador') {
+            session()->flash('error', 'No tienes autorización para eliminar clientes.');
+            return;
+        }
+
         Client::find($id)->delete();
         session()->flash('message', 'Cliente eliminado exitosamente.');
     }
